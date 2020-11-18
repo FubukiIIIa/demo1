@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学校班级管理系统管理平台</title>
+    <script src="/javascripts/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <!--1.1导入bootcss.css-->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/reset.css">
+    <link rel="stylesheet" href="/stylesheets/index.css">
+</head>
+
+<body>
+    <div class="navbar navbar-default n-header" role="navigation">
+        <div class="container-fluid n-header-wrapper">
+            <div class="navbar-header">
+                <a class="navbar-brand jx-logo" href="index">
+                    <img src="/images/logo2.jpg" alt="学院学员管理系统">
+                </a>
+            </div>
+            <div class="navbar-wrapper">
+                <ul class="nav navbar-nav nav-items">
+                    <li>
+                        <a class="nav-item" href="#">
+                            <span>消息</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" href="#">
+                            <span>设置</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-item" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span>安全退出</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/users/exit">退出</a>
+                            </li>
+                            <li>
+                                <a href="/users/exit">注销</a>
+                            </li>
+                            <li>
+                                <a href="/users/exit">切换账号</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">帮助</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <div class="main">
+        <div class="container-fluid main-content">
+            <div class="row main-row">
+                <div class="col-md-2 left">
+                    <div class="left-header">
+                        当前用户:
+                        <span><%= user.uname %></span>
+                    </div>
+                    <ul class="list-unstyled" id="c-datas"></ul>
+                </div>
+                <div class="col-md-10 right">
+                    <div class="col-md-12 right-header">
+                        当前:
+                        <span class="path">首页</span>-
+                        <span class="c-name">计算机1班</span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="class-name">计算机1班</span>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="searchBox fr">
+                            <div class="searchInput fl">
+                                <input type="text" placeholder="用户名" />
+                            </div>
+                            <div class="searchBtn fl">
+                                <input type="submit" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="tools">
+                            <input type="button" value="添加" class="btn" id="add-stu" />
+                            <!-- <input type="button" value="编辑" class="btn" id="edit-stu"/>
+                            <input type="button" value="删除" class="btn" id="del-stu" style="background:#e15829;" /> -->
+                            <!-- <input type="button" value="账号授权" class="btn fr" style="background:#ef9623;width: 80px;" /> -->
+                        </div>
+                    </div>
+                    <div class="show-datas">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 2%;">
+                                        <input type="checkbox">
+                                    </th>
+                                    <th style="width: 10%;">姓名</th>
+                                    <th style="width: 10%;">学号</th>
+                                    <th style="width: 15%;">手机号</th>
+                                    <th style="width: 8%;">性别</th>
+                                    <th style="width: 8%;">年龄</th>
+                                    <th style="width: 20%;">专业</th>
+                                    <th style="width: 27%;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="s-datas"></tbody>
+                        </table>
+                    </div>
+                    <div class="edit-stu-info e-hidden">
+                        <div class="edit-header">
+                            <span>学员基本信息</span>
+                            <div class="edit-close-show">
+                                <object data="/images/close.svg" type="image/svg+xml"></object>
+                                <button id="edit-close"></button>
+                            </div>
+                        </div>
+                        <div class="container-fluid u-infors">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="img-wrapper">
+                                        <img src="/images/udefault.png" alt="用户图像">
+                                        <span>上传图像</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="col-md-4">
+                                        <div class="e-tr">
+                                            <label class="e-td" for="">姓名</label>
+                                            <input class="e-td e-input" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="e-tr">
+                                            <label class="e-td" for="">学号</label>
+                                            <input class="e-td e-input" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="e-tr">
+                                            <label class="e-td" for="">手机号</label>
+                                            <input class="e-td e-input" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" role="form">
+                                        <div class="e-tr">
+                                            <!-- <label class="e-td" for="">性别</label><input class="e-td e-input" type="text" placeholder="新蓝剑"> -->
+                                            <label class="e-td" for="">性别</label>
+                                            <select id="u-select" class="e-select" style="background-color: #fff;">
+                                                <option value="m">男</option>
+                                                <option value="f">女</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="e-tr">
+                                            <label class="e-td" for="">年龄</label>
+                                            <input class="e-td e-input" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="e-tr">
+                                            <label class="e-td" for="">专&nbsp;&nbsp;&nbsp;&nbsp;业</label>
+                                            <input class="e-td e-input" type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="height: 60px;line-height: 60px;text-align: right;">
+                                    <button type="button" id="e-save">保存</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+<!--1.2 按顺序导入js bootcss.js是对jquery的一个工具库，所有现有jquery-->
+
+<script src="/javascripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/ls.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/json.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+    function requestData(urlString, methods, parms) {
+        return new Promise(function (res, rej) {
+            $.ajax({
+                url: urlString,
+                // 请求类型是POST还是GET
+                type: "GET",
+                // 发送数据
+                data: parms,
+                // 超时时间
+                timeout: 5000,
+                // 返回数据类型json数据
+                dataType: "json",
+                // 异步还是同步 默认是异步，false表示同步
+                async: true,
+                success: function (data) {
+                    res(data);
+                },
+                error: function (xhr, textStatus) {
+                    console.log('错误1234567890');
+                    console.log(xhr);
+                    console.log(textStatus);
+                }
+            })
+        });
+    }
+    function requestData2(urlString, methods, parms) {
+        console.log(parms);
+        return new Promise(function (res, rej) {
+            $.ajax({
+                url: urlString,
+                // 请求类型是POST还是GET
+                type: "GET",
+                // 发送数据
+                data: parms,
+                // 超时时间
+                timeout: 5000,
+                // 返回数据类型json数据
+                dataType: "json",
+                // 异步还是同步 默认是异步，false表示同步
+                async: true,
+                success: function (data) {
+                    res(data);
+                },
+                error: function (xhr, textStatus) {
+                    console.log('错误');
+                    console.log(xhr);
+                    console.log(textStatus);
+                }
+            })
+        });
+    }
+    $(function () {
+        //1.1 访问API: 班级列表和指定的第一个班级的学生
+        var urlString = 'http://127.0.0.1:3000/users/getclasses';
+        var urlString2 = 'http://127.0.0.1:3000/students';
+        var c_datas = [];
+        // 1.2 请求班级和请求默认的第一个班级的学生是一前一后的2次串行请求
+        // 所以使用了 Promise 来实现异步串行任务，第二次请求条件，来源自第一次请求的结果
+        requestData(urlString, "GET", null).then(data => {
+            var init_cname = data.data[0].classname;
+            $('span.class-name').html(init_cname);
+            $('span.c-name').html(init_cname);
+            // 动态刷新UI 刷新班级
+            addClasses(data.data);
+            save_value_to_storage('USERCID', data.data[0].id);
+            requestData2(urlString2, "GET", { "cid": data.data[0].id }).then(data => {
+                // 动态刷新UI 刷新学生列表
+                showStudents(data.students);
+            }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
+        /*
+        //1.2根据用户信息id 获取班级
+        $.ajax({
+            url: urlString,
+            // 请求类型是POST还是GET
+            type: 'GET',
+            // 异步还是同步 默认是异步，false表示同步
+            async: true,
+            // 发送数据
+            data: {},
+            // 超时时间
+            timeout: 5000,
+            // 返回数据类型json数据
+            dataType: 'json',
+            // 成功返回处理
+            success: function (data, textStatus, jqXHR) {
+                //解析json数据
+                console.log(data);
+                console.log(textStatus);
+                console.log(jqXHR);
+                // 将用户id存放到本地
+
+                // 跳转
+                // window.location.href = 'index.html';
+            },
+            // 错误返回
+            error: function (xhr, textStatus) {
+                console.log('错误');
+                console.log(xhr);
+                console.log(textStatus);
+            }
+        });*/
+        //测试 根据服务器返回数据添加班级
+        //模拟网络获取班级信息
+        // var c_datas = class_json;
+        // var init_cname = c_datas.data[0].classname;
+        // $('span.class-name').html(init_cname);
+        // $('span.c-name').html(init_cname);
+        // addClasses(c_datas.data);
+
+        // var stus_arr = [students_json_01, students_json_02];
+        // // 根据班级id去请求对应班级的所有学生
+        // var studs = students_json_01;
+        // showStudents(students_json_01.data);
+
+        //左侧班级选项卡切换 
+        $('.list-unstyled').on('click', '.data-item',function () {
+            $('.data-item').removeClass('item-selector');
+            $(this).addClass('item-selector');
+
+            // var td_el = $(this).parent().parent().find("td");
+            // console.log($(this).text());
+            //设置显示的用户名和班级名在右侧对应的显示 
+            $('span.class-name').html($(this).text());
+            $('span.c-name').html($(this).text());
+
+            // 移出当前显示的数据 
+            $('#s-datas > tr').remove();
+            // 根据当前 班级id 轮询数据找到对应的学生s 
+            var select_class_name = $(this).text();
+            requestData(urlString, "GET", null).then(data => {
+                let classes = data.data;
+                let item = classes.find(value => value.classname === select_class_name);
+                save_value_to_storage('USERCID', item.id);
+                requestData2(urlString2, "GET", { "cid": item.id }).then(data => {
+                    showStudents(data.students);
+                }).catch(err => console.log(err));
+            }).catch(err => console.log(err));
+        });
+
+        // 添加学员
+        $('#add-stu').on('click', function () {
+            $('.edit-stu-info').eq(0).removeClass('e-hidden');
+            $('.edit-stu-info').eq(0).addClass('e-show');
+            $('.edit-header > span').html('添加学员');
+
+            $('input.e-input').eq(0).val('');
+            $('input.e-input').eq(1).val('');
+            $('input.e-input').eq(2).val('');
+            $('input.e-input').eq(3).val('');
+            $('input.e-input').eq(4).val('');
+            $('#u-select option').eq(0).text('男');
+            $('#u-select option').eq(0).val('m');
+            $('#u-select option').eq(1).text('女');
+            $('#u-select option').eq(1).val('f');
+        });
+
+        //关闭窗口
+        $('#edit-close').on('click', function (e) {
+            $('.edit-stu-info').eq(0).removeClass('e-show');
+            $('.edit-stu-info').eq(0).addClass('e-hidden');
+        });
+
+        //保存
+        $('#e-save').on('click', function () {
+            $('.edit-stu-info').eq(0).removeClass('e-show');
+            $('.edit-stu-info').eq(0).addClass('e-hidden');
+
+            var u_sex = $('#u-select option:selected').text(); //选中的文本
+            var u_sex_val = $('#u-select option:selected').val(); //选中的值
+            // $("#u-Select").get(0).; //索引
+            var sname =  $('input.e-input').eq(0).val();
+            var snumber =  $('input.e-input').eq(1).val();
+            var sphone = $('input.e-input').eq(2).val();
+            var sage = $('input.e-input').eq(3).val();
+            var smajor = $('input.e-input').eq(4).val();
+            var cid = get_value_from_storage('USERCID');
+            var data = {sname,snumber,sage,ssex: u_sex_val,sphone,smajor,cid};
+            var select_string = $('.edit-header > span').html();
+            if (select_string == "添加学员") {
+                $.ajax({
+                    url: 'http://127.0.0.1:3000/students',
+                    // 请求类型是POST还是GET
+                    type: 'POST',
+                    // 异步还是同步 默认是异步，false表示同步
+                    async: true,
+                    // 发送数据
+                    data: data,
+                    // 超时时间
+                    timeout: 5000,
+                    // 返回数据类型json数据
+                    dataType: 'json',
+                    // 成功返回处理
+                    success: function (data, textStatus, jqXHR) {
+                        //解析json数据
+                        console.log(data.data);
+                        // 移出当前显示的数据 
+                        $('#s-datas > tr').remove();
+                        showStudents(data.data);
+                    },
+                    // 错误返回
+                    error: function (xhr, textStatus) {
+                        console.log('错误');
+                        console.log(xhr);
+                        console.log(textStatus);
+                    }
+                });
+            } else if(select_string == "编辑学员信息"){
+                $.ajax({
+                    url: 'http://127.0.0.1:3000/students',
+                    // 请求类型是POST还是GET
+                    type: 'PUT',
+                    // 异步还是同步 默认是异步，false表示同步
+                    async: true,
+                    // 发送数据
+                    data: data,
+                    // 超时时间
+                    timeout: 5000,
+                    // 返回数据类型json数据
+                    dataType: 'json',
+                    // 成功返回处理
+                    success: function (data, textStatus, jqXHR) {
+                        //解析json数据
+                        console.log(data);
+                        // 移出当前显示的数据 
+                        $('#s-datas > tr').remove();
+                        showStudents(data.data);
+                    },
+                    // 错误返回
+                    error: function (xhr, textStatus) {
+                        console.log('错误');
+                        console.log(xhr);
+                        console.log(textStatus);
+                    }
+                });
+            } else {
+
+            }
+        });
+    });
+
+    function addClasses(objs) {
+        for (let index = 0; index < objs.length; index++) {
+            var li_el = $('<li></li>');
+            li_el.addClass('data-item');
+            if (0 == index) {
+                li_el.addClass('item-selector');
+            }
+
+            li_el.html(objs[index].classname);
+
+            $("#c-datas").append(li_el);
+        }
+    }
+    function showStudents(objs) {
+        for (let index = 0; index < objs.length; index++) {
+            var item = objs[index];
+            var tr_el = $('<tr></tr>');
+            // tr_el.addClass('data-item');
+            for (let i = 0; i < 8; i++) {
+                var td_el = $('<td></td>');
+
+                switch (i) {
+                    case 0:
+                        {
+                            var input_el = $('<input type="checkbox"></input>');
+                            td_el.append(input_el);
+                            break;
+                        }
+                    case 7:
+                        {
+                            var input_edit_el = $(
+                                '<input type="button" name="edit" value="编辑" class="btn" id="edit-stu" />');
+                            var input_del_el = $(
+                                '<input type="button" name="del" value="删除" class="btn" id="del-stu" style="background:#e15829;" />'
+                            );
+                            td_el.append(input_edit_el);
+                            td_el.append(input_del_el);
+                            break;
+                        }
+                    case 1:
+                        {
+                            td_el.html(item.truename);
+                            break;
+                        }
+                    case 2:
+                        {
+                            td_el.html(item.sno);
+                            break;
+                        }
+                    case 3:
+                        {
+                            td_el.html(item.tel);
+                            break;
+                        }
+                    case 4:
+                        {
+                            if (item.gender == 'm') {
+                                td_el.html('男');
+                            } else {
+                                td_el.html('女');
+                            }
+
+                            break;
+                        }
+                    case 5:
+                        {
+                            td_el.html(item.age);
+                            break;
+                        }
+                    case 6:
+                        {
+                            td_el.html(item.major);
+                            break;
+                        }
+                    default:
+                        {
+                            // td_el.html(i);
+                            break;
+                        }
+
+                }
+                tr_el.append(td_el);
+
+            }
+            $('#s-datas').append(tr_el);
+        }
+
+        //动态添加的 元素标签，需要使用on事件来绑定事件否则无效 
+        $('[name="edit"]').on('click', function () {
+            var td_el = $(this).parent().parent().find("td");
+            console.log(td_el.eq(2).text());
+
+            $('.edit-stu-info').eq(0).removeClass('e-hidden');
+            $('.edit-stu-info').eq(0).addClass('e-show');
+            console.log('gaodu :' + $('.right').eq(0).height());
+            var edit_show_h = $('.right').eq(0).height();
+            $('.edit-header > span').html('编辑学员信息');
+
+            $('.edit-stu-info').eq(0).css('height', edit_show_h + 'px');
+
+            $('input.e-input').eq(0).val(td_el.eq(1).text());
+            $('input.e-input').eq(1).val(td_el.eq(2).text());
+            $('input.e-input').eq(2).val(td_el.eq(3).text());
+            $('input.e-input').eq(3).val(td_el.eq(5).text());
+            $('input.e-input').eq(4).val(td_el.eq(6).text());
+
+            if (td_el.eq(4).text() == '男') {
+                $('#u-select option').eq(0).text('男');
+                $('#u-select option').eq(0).val('m');
+                $('#u-select option').eq(1).text('女');
+                $('#u-select option').eq(1).val('f');
+            } else {
+                $('#u-select option').eq(0).text('女');
+                $('#u-select option').eq(0).val('f');
+                $('#u-select option').eq(1).text('男');
+                $('#u-select option').eq(1).val('m');
+            }
+
+        });
+        $('[name="del"]').on('click', function () {
+            var cid = get_value_from_storage('USERCID');
+            var td_el = $(this).parent().parent().find("td");
+            console.log(td_el.eq(2).text());
+            var data = { snumber: td_el.eq(2).text(),  cid };
+            var _that = $(this);
+            $.ajax({
+                url: 'http://127.0.0.1:3000/students',
+                // 请求类型是POST还是GET
+                type: 'DELETE',
+                // 异步还是同步 默认是异步，false表示同步
+                async: true,
+                // 发送数据
+                data: data,
+                // 超时时间
+                timeout: 5000,
+                // 返回数据类型json数据
+                dataType: 'json',
+                // 成功返回处理
+                success: function (data, textStatus, jqXHR) {
+                    //解析json数据
+                    console.log(data);
+                    // 移出当前显示的数据 
+                    // $('#s-datas > tr').remove();
+                    // showStudents(data.data);
+                    _that.parent().parent().remove();
+                },
+                // 错误返回
+                error: function (xhr, textStatus) {
+                    console.log('错误');
+                    console.log(xhr);
+                    console.log(textStatus);
+                }
+            });            
+        });
+    }
+</script>
+
+</html>

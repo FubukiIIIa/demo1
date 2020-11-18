@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "uname": "admin",
+      "upwd": "admin",
+      "uid": "1001",
+      "typy": "1"
+    },
+    
+    {
+      "uname": "zhangsan",
+      "upwd": "123456",
+      "uid": "1002",
+      "typy": "2"
+    }
+
+  ]
+}
